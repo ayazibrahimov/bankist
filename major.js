@@ -27,7 +27,7 @@ const account2 = {
 
 };
 
-const accounts = [account1, account2];
+// const accounts = [account1, account2];
 
 /////////////////////////////////////////////////
 // Elements
@@ -55,3 +55,76 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+
+
+//function
+
+let displayMovements = function(movement){
+
+  containerMovements.innerHTML= ""
+
+ movement.forEach(function(mov,index){
+     
+  
+   
+     //withdrawal
+
+     let type = mov>0 ?"deposit":"withdrawal"
+
+     let html = `<div class="movements__row">
+                  <div class="movements__type movements__type--${type} ">${index+1} ${type}</div>
+                 
+                  <div class="movements__value">${mov}</div>
+                 </div>`
+
+    containerMovements.insertAdjacentHTML("afterbegin",html)           
+
+})
+
+
+}
+
+
+
+displayMovements(account1.movements)
+
+
+
+
+
+
+
+const showFunc = function(ayaz,asef){
+  
+  const major = ayaz.concat(asef)
+ 
+  let num1 =0
+
+  let num2 = 0
+
+   major.forEach(function(e){
+     if(e>0){
+       
+       num1++
+     }else{
+       
+       num2++
+     }
+   })
+
+   console.log( `meni ededlerin sayi :${num2} -denedir`)
+   console.log(` musbet ededlerin sayi :${num1} -denedir `)
+
+}
+
+
+showFunc([1,-5,-2,12,7],[11,-12,13,-45])
+
+
+
+
+
+
+
+
+
