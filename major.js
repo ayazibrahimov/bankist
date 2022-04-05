@@ -11,7 +11,7 @@
 
 const account1 = {
   owner: 'Jonas Schmedtmann',
-  movements: [200, 455.23, -306.5, 25000, -642.21, -133.9, 79.97, 1300],
+  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30 ],
   interestRate: 1.2, // %
   pin: 1111,
 
@@ -27,7 +27,7 @@ const account2 = {
 
 };
 
-// const accounts = [account1, account2];
+const accounts = [account1, account2];
 
 /////////////////////////////////////////////////
 // Elements
@@ -65,16 +65,14 @@ let displayMovements = function(movement){
 
  movement.forEach(function(mov,index){
      
-  
    
      //withdrawal
-
      let type = mov>0 ?"deposit":"withdrawal"
 
      let html = `<div class="movements__row">
                   <div class="movements__type movements__type--${type} ">${index+1} ${type}</div>
                  
-                  <div class="movements__value">${mov}</div>
+                  <div class="movements__value">${mov} € </div>
                  </div>`
 
     containerMovements.insertAdjacentHTML("afterbegin",html)           
@@ -84,41 +82,105 @@ let displayMovements = function(movement){
 
 }
 
-
-
 displayMovements(account1.movements)
 
 
 
-
-
-
-
-const showFunc = function(ayaz,asef){
-  
-  const major = ayaz.concat(asef)
- 
-  let num1 =0
-
-  let num2 = 0
-
-   major.forEach(function(e){
-     if(e>0){
-       
-       num1++
-     }else{
-       
-       num2++
-     }
+const createUsernames = function(accs){
+   accs.forEach(function(acc){
+     acc.username = acc.owner.toLowerCase().split(" ").map((name)=>name[0]).join("")
    })
-
-   console.log( `meni ededlerin sayi :${num2} -denedir`)
-   console.log(` musbet ededlerin sayi :${num1} -denedir `)
-
 }
 
 
-showFunc([1,-5,-2,12,7],[11,-12,13,-45])
+
+
+createUsernames(accounts)
+
+const displayTotalPrice =function(total){
+   const main=total.reduce((acc,tot)=>{
+    return acc+=tot
+  },0)
+  labelBalance.textContent=`${main} €`
+}
+
+
+
+displayTotalPrice(account1.movements)
+
+
+
+
+
+const displayOveralls = function(movements){
+ const income = movements.filter(mov=>mov>0).reduce((acc,tot)=>acc+tot)
+
+ labelSumIn.textContent=`${income}€`
+
+
+ const outcome = movements.filter(mov=>mov<0).reduce((acc,tot)=>acc+tot)
+ labelSumOut.textContent=`${Math.abs(outcome)}€`
+
+
+ const interest = movements.filter(mov=>mov>0).map(dep=>Math.ceil((dep*1.2)/100)).reduce((acc,tot)=>acc+tot)
+ labelSumInterest.textContent=`${interest}€`
+}
+
+
+displayOveralls(account1.movements)
+
+
+
+
+
+
+
+// const main =[-20,-10,-8,-6,-4,-2,0,1,2,4,6,18,20,40]
+
+// // const main = arr.filter(data =>data>18)
+// // const mained=main.length
+
+// // const data =main.map( arr=>arr).filter(age=>age>=18).reduce((acc,tot,i, arr)=>  arr)
+
+
+
+
+// const data =main.find((mov)=>mov>0)
+
+// console.log(data)
+
+
+
+const users = [
+  {name:'Ayaz',age:23},
+  {name:'Asef',age:20},
+  {name:'Akber',age:25},
+  {name:'Cavad',age:23}
+]
+
+
+
+
+
+const data =users.find(user =>{
+  return user.name ==="Ayaz" &&user.age===23
+})
+
+console.log(data)
+
+// const empty =[]
+
+//  users.forEach(function(e){
+//    if(e.age===23 && e.name==="Ayaz"){
+//      empty.push(e)
+//    }
+//  })
+
+//  console.log(empty)
+
+
+
+
 
 
 
