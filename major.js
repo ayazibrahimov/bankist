@@ -20,7 +20,7 @@ const account1 = {
 
 const account2 = {
   owner: 'Jessica Davis',
-  movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
+  movements: [-5000, 3400, -150, 790, -3210, 1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
 
@@ -82,9 +82,6 @@ let displayMovements = function(movement){
 
 }
 
-displayMovements(account1.movements)
-
-
 
 const createUsernames = function(accs){
    accs.forEach(function(acc){
@@ -97,6 +94,8 @@ const createUsernames = function(accs){
 
 createUsernames(accounts)
 
+
+
 const displayTotalPrice =function(total){
    const main=total.reduce((acc,tot)=>{
     return acc+=tot
@@ -106,77 +105,66 @@ const displayTotalPrice =function(total){
 
 
 
-displayTotalPrice(account1.movements)
 
 
 
-
-
-const displayOveralls = function(movements){
- const income = movements.filter(mov=>mov>0).reduce((acc,tot)=>acc+tot)
+const displayOveralls = function(acc){
+ const income =acc.movements.filter(mov=>mov>0).reduce((acc,tot)=>acc+tot)
 
  labelSumIn.textContent=`${income}€`
 
 
- const outcome = movements.filter(mov=>mov<0).reduce((acc,tot)=>acc+tot)
+ const outcome = acc.movements.filter(mov=>mov<0).reduce((acc,tot)=>acc+tot)
  labelSumOut.textContent=`${Math.abs(outcome)}€`
 
 
- const interest = movements.filter(mov=>mov>0).map(dep=>Math.ceil((dep*1.2)/100)).reduce((acc,tot)=>acc+tot)
+ const interest =acc.movements.filter(mov=>mov>0).map(dep=>Math.ceil((dep*acc.interestRate)/100)).reduce((acc,tot)=>acc+tot)
  labelSumInterest.textContent=`${interest}€`
 }
 
 
-displayOveralls(account1.movements)
 
 
 
+let currentAccount;
 
 
+btnLogin.addEventListener("click",function(e){
+  e.preventDefault()
+
+  
+ currentAccount=accounts.find(acc =>acc.username ===inputLoginUsername.value)
+   
 
 
-// const main =[-20,-10,-8,-6,-4,-2,0,1,2,4,6,18,20,40]
+ if( currentAccount?.pin === Number(inputLoginPin.value)){
+    
+  //heading
+  labelWelcome.textContent = `Welcome back ${ currentAccount.owner.split(' ')[0]}`
 
-// // const main = arr.filter(data =>data>18)
-// // const mained=main.length
+  //container visiblity
+  containerApp.style.opacity=1
 
-// // const data =main.map( arr=>arr).filter(age=>age>=18).reduce((acc,tot,i, arr)=>  arr)
-
-
-
-
-// const data =main.find((mov)=>mov>0)
-
-// console.log(data)
-
-
-
-const users = [
-  {name:'Ayaz',age:23},
-  {name:'Asef',age:20},
-  {name:'Akber',age:25},
-  {name:'Cavad',age:23}
-]
+  //clear input files
+  inputLoginUsername.value = inputLoginPin.value=""
+  
+  
+  //blur to pin
+  inputLoginPin.blur()  
 
 
+  //show blank
+  displayMovements(currentAccount.movements)
+  
+  //total price
+  displayTotalPrice(currentAccount.movements)
 
+  //overal summary
+  displayOveralls(currentAccount)
 
+ }
 
-const data =users.find(user =>{
-  return user.name ==="Ayaz" &&user.age===23
 })
-
-console.log(data)
-
-// const empty =[]
-
-//  users.forEach(function(e){
-//    if(e.age===23 && e.name==="Ayaz"){
-//      empty.push(e)
-//    }
-//  })
-
-//  console.log(empty)
 
 
 
