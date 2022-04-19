@@ -148,3 +148,19 @@
 // console.log(main)
 
 
+
+
+
+// function calcNum(num,dis){
+   
+//     let  d= num- Math.floor(num/dis)*dis
+//       console.log(d)
+// }
+
+
+// calcNum(8,3)
+
+
+
+
+
